@@ -70,7 +70,7 @@ Make sure you have the following installed on your machine:
 **Cloning the Repository**
 
 ```bash
-git clone https://github.com/ankit-kr27/startup-directory.git
+git clone https://github.com/Aryadev10/startup-directory.git
 cd startup-directory
 ```
 
