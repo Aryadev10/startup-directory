@@ -41,16 +41,19 @@ const LikeButton = ({ startupId, initialLikes, isLiked }: LikeButtonProps) => {
         
         router.refresh();
       } else {
+        console.error('Like error details:', result.error);
         toast({
           title: 'Error',
           description: result.error || 'Something went wrong',
           variant: 'destructive',
         });
       }
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     } catch (error) {
+      console.error('Uncaught error in like operation:', error);
       toast({
         title: 'Error',
-        description: 'Something went wrong',
+        description: error instanceof Error ? error.message : 'Something went wrong',
         variant: 'destructive',
       });
     } finally {
