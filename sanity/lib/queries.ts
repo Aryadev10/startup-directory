@@ -8,6 +8,7 @@ export const STARTUPS_QUERY =
         _createdAt, 
         author -> {_id, name, image, bio}, 
         views, 
+        likes,
         description, 
         category, 
         image
@@ -21,6 +22,8 @@ export const STARTUP_BY_ID_QUERY =
     _createdAt, 
     author -> {_id, name, username, image, bio}, 
     views, 
+    likes,
+    "likedBy": likedBy[]._ref,
     description, 
     category, 
     image, 
@@ -31,6 +34,14 @@ export const STARTUP_VIEWS_QUERY =
     defineQuery(`*[_type == 'startup' && _id == $id][0] {
     _id,
     views
+}`);
+
+export const COMMENTS_BY_STARTUP_QUERY =
+    defineQuery(`*[_type == 'comment' && startup._ref == $startupId] | order(createdAt desc) {
+    _id,
+    text,
+    createdAt,
+    author -> {_id, name, username, image}
 }`);
 
 export const AUTHOR_BY_GITHUB_ID_QUERY = defineQuery(`
@@ -65,6 +76,7 @@ export const STARTUPS_BY_AUTHOR_QUERY =
         _createdAt, 
         author -> {_id, name, image, bio}, 
         views, 
+        likes,
         description, 
         category, 
         image
@@ -89,6 +101,7 @@ export const PLAYLIST_BY_SLUG_QUERY =
                     bio
                 }, 
             views, 
+            likes,
             description, 
             category, 
             image, 

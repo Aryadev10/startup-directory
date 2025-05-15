@@ -1,5 +1,5 @@
 import { cn, formatDate } from '@/lib/utils';
-import { EyeIcon } from 'lucide-react';
+import { EyeIcon, Heart } from 'lucide-react';
 import Image from 'next/image';
 import Link from 'next/link';
 import { Button } from './ui/button';
@@ -12,6 +12,7 @@ const StartupCard = ({ post }: { post: StartupTypeCard }) => {
     const {
         _createdAt,
         views,
+        likes,
         author,
         title,
         _id,
@@ -23,9 +24,15 @@ const StartupCard = ({ post }: { post: StartupTypeCard }) => {
         <li className="startup-card group">
             <div className="flex-between ">
                 <p className="startup_card_date">{formatDate(_createdAt)}</p>
-                <div className="flex gap-1.5">
-                    <EyeIcon className="size-6 text-primary" />
-                    <span className="text-16-medium">{views}</span>
+                <div className="flex gap-4">
+                    <div className="flex gap-1.5">
+                        <Heart className="size-5 text-pink-500" />
+                        <span className="text-16-medium">{likes || 0}</span>
+                    </div>
+                    <div className="flex gap-1.5">
+                        <EyeIcon className="size-5 text-primary" />
+                        <span className="text-16-medium">{views}</span>
+                    </div>
                 </div>
             </div>
             <div className="flex-between mt-5 gap-5">

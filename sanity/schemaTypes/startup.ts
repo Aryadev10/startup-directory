@@ -26,6 +26,16 @@ export const startup = defineType({
             type: 'number',
         }),
         defineField({
+            name: 'likes',
+            type: 'number',
+            initialValue: 0,
+        }),
+        defineField({
+            name: 'likedBy',
+            type: 'array',
+            of: [{ type: 'reference', to: { type: 'author' } }],
+        }),
+        defineField({
             name: 'description',
             type: 'text',
         }),

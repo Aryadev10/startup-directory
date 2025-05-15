@@ -9,6 +9,10 @@ import markdownit from 'markdown-it';
 import { Skeleton } from '@/components/ui/skeleton';
 import View from '@/components/View';
 import StartupCard, { StartupTypeCard } from '@/components/StartupCard';
+import LikeButton from '@/components/LikeButton';
+import ShareButton from '@/components/ShareButton';
+import CommentList from '@/components/CommentList';
+import { auth } from '@/auth';
 
 const md = markdownit();
 
@@ -16,7 +20,7 @@ export const experimental_ppr = true;
 
 const Page = async ({ params }: { params: Promise<{ id: string }> }) => {
     const id = (await params).id;
-
+    const session = await auth();
 
     // In the below scenario, we are fetching the data sequentially, which is not the best practice for independent use cases
     // const post = await client.fetch(STARTUP_BY_ID_QUERY, { id });
@@ -36,6 +40,7 @@ const Page = async ({ params }: { params: Promise<{ id: string }> }) => {
       
       const editorPosts = playlist?.select ?? [];
       
+      const isLiked = session && post.likedBy ? post.likedBy.includes(session.id) : false;
 
     console.log(editorPosts);
     const parsedContent = md.render(post?.pitch || '');
@@ -76,7 +81,11 @@ const Page = async ({ params }: { params: Promise<{ id: string }> }) => {
                                 </p>
                             </div>
                         </Link>
-                        <p className="category-tag">{post.category}</p>
+                        <div className="flex items-center gap-4">
+                            {session && <LikeButton startupId={id} initialLikes={post.likes || 0} isLiked={isLiked} />}
+                            <ShareButton title={post.title} description={post.description} />
+                            <p className="category-tag">{post.category}</p>
+                        </div>
                     </div>
                     <h3 className="text-30-bold">Pitch Details</h3>
                     {parsedContent ? (
@@ -88,6 +97,9 @@ const Page = async ({ params }: { params: Promise<{ id: string }> }) => {
                         <p className="no-result">No pitch details available</p>
                     )}
                 </div>
+                
+                <CommentList startupId={id} />
+                
                 <hr className="divider" />
                 {
                     editorPosts?.length > 0 && (

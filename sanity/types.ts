@@ -125,6 +125,28 @@ export type SanityAssetSourceData = {
     url?: string;
 };
 
+export type Comment = {
+    _id: string;
+    _type: 'comment';
+    _createdAt: string;
+    _updatedAt: string;
+    _rev: string;
+    text?: string;
+    author?: {
+        _ref: string;
+        _type: 'reference';
+        _weak?: boolean;
+        [internalGroqTypeReferenceTo]?: 'author';
+    };
+    startup?: {
+        _ref: string;
+        _type: 'reference';
+        _weak?: boolean;
+        [internalGroqTypeReferenceTo]?: 'startup';
+    };
+    createdAt?: string;
+};
+
 export type Playlist = {
     _id: string;
     _type: 'playlist';
@@ -157,6 +179,14 @@ export type Startup = {
         [internalGroqTypeReferenceTo]?: 'author';
     };
     views?: number;
+    likes?: number;
+    likedBy?: Array<{
+        _ref: string;
+        _type: 'reference';
+        _weak?: boolean;
+        _key: string;
+        [internalGroqTypeReferenceTo]?: 'author';
+    }>;
     description?: string;
     category?: string;
     image?: string;
@@ -196,6 +226,7 @@ export type AllSanitySchemaTypes =
     | SanityImageMetadata
     | Geopoint
     | SanityAssetSourceData
+    | Comment
     | Playlist
     | Startup
     | Slug
